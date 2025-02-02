@@ -1,0 +1,25 @@
+<h2>Liste des livres</h2>
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Catégorie</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr *ngFor="let book of books">
+            <td>{{ book.titre }}</td>
+            <td>{{ book.description }}</td>
+            <td>{{ getCategoryDescription(book) }}</td>
+            <td>{{ book.date | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+                <button (click)="updateBook(book.id)" class="btn btn-info" style="margin-left: 10px">Modifier</button>
+                <button (click)="deleteBook(book.id)" class="btn btn-danger" style="margin-left: 10px">Supprimer</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

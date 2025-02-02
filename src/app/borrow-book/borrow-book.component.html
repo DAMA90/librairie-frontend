@@ -1,0 +1,97 @@
+<!-- Template amélioré avec les mêmes attributs -->
+<div class="container">
+  <div class="text-center mb-5">
+    <h2 class="display-4 mb-4">Catalogue des livres</h2>
+    <div class="w-32 mx-auto border-b-4 border-primary mb-4"></div>
+  </div>
+
+  <div class="row" *ngIf="!loadingBooks && !loadingReservations">
+    <div *ngFor="let book of books" class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm hover:shadow-lg transition-shadow duration-200">
+        <!-- En-tête de la carte -->
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title h4 mb-0">{{ book.titre }}</h5>
+        </div>
+
+        <div class="card-body d-flex flex-column">
+          <!-- Catégorie -->
+          <div class="mb-3">
+            <span class="badge bg-primary rounded-pill">
+              {{ getCategoryDescription(book) }}
+            </span>
+          </div>
+
+          <!-- Description -->
+          <p class="card-text flex-grow-1">{{ book.description }}</p>
+
+          <!-- Date d'ajout -->
+          <p class="card-text text-muted mb-3">
+            <small>
+              <i class="bi bi-calendar-date me-2"></i>
+              Ajouté le {{ book.date | date:'dd/MM/yyyy' }}
+            </small>
+          </p>
+
+          <!-- Actions -->
+          <div class="mt-auto">
+            <ng-container *ngIf="isBookAvailable(book.id!)">
+              <button 
+                class="btn btn-primary w-100" 
+                (click)="reserveBook(book.id!)"
+              >
+                <i class="bi bi-bookmark-plus me-2"></i>
+                Réserver ce livre
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="!isBookAvailable(book.id!)">
+              <div class="alert alert-info mb-3 d-flex align-items-center">
+                <i class="bi bi-info-circle me-2"></i>
+                Vous avez déjà réservé ce livre
+              </div>
+
+              <button 
+                *ngIf="getReservationForBook(book.id!)?.statut === 'Acceptée'"
+                class="btn btn-success w-100" 
+                (click)="borrowBook(getReservationForBook(book.id!).id)"
+              >
+                <i class="bi bi-journal-arrow-down me-2"></i>
+                Emprunter ce livre
+              </button>
+
+              <div 
+                *ngIf="getReservationForBook(book.id!)?.statut === 'En attente'"
+                class="alert alert-warning mb-0 d-flex align-items-center"
+              >
+                <i class="bi bi-clock-history me-2"></i>
+                En attente de validation
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Section commentaires -->
+        <div class="card-footer bg-light border-top">
+          <app-book-comments [bookId]="book.id!"></app-book-comments>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- État de chargement -->
+  <div *ngIf="loadingBooks || loadingReservations" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement du catalogue...</p>
+  </div>
+
+  <!-- État vide -->
+  <div 
+    *ngIf="!loadingBooks && !loadingReservations && books.length === 0" 
+    class="alert alert-info text-center my-5"
+  >
+    <i class="bi bi-book x2 mb-3"></i>
+    <p class="mb-0">Aucun livre disponible pour le moment.</p>
+  </div>
+</div>

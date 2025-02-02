@@ -1,0 +1,116 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" style="color: rgb(241, 223, 223)" href="#"
+        >Médiathèque</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              routerLink="/books"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_ADMIN'])"
+              >Livres</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/create-book"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_ADMIN'])"
+              >Ajouter un livre</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/categories"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_ADMIN'])"
+              >Categories</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/users"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_ADMIN'])"
+              >Utilisateurs</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/admin/reservations"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_ADMIN'])"
+            >
+              Gérer les réservations
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/borrow-book"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_USER'])"
+              >Prêter un livre</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              routerLink="/return-book"
+              routerLinkActive="active"
+              class="nav-link"
+              *ngIf="userService.roleMatch(['ROLE_USER'])"
+              >Retourner un livre</a
+            >
+          </li>
+
+          <li class="nav-item right-text" *ngIf="isLoggedIn()">
+            <div class="nav-link disabled text-right">
+              <strong> Hey {{ name }} </strong>
+            </div>
+          </li>
+        </ul>
+        <button
+          *ngIf="!isLoggedIn()"
+          type="button"
+          class="btn btn-success"
+          routerLink="/login"
+        >
+          Se connecter
+        </button>
+        <button
+          *ngIf="isLoggedIn()"
+          type="button"
+          class="btn btn-danger"
+          (click)="logout()"
+        >
+          Se déconnecter
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>

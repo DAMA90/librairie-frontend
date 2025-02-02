@@ -1,0 +1,36 @@
+<div class="modal" [class.show]="isOpen" [style.display]="isOpen ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter un commentaire</h5>
+          <button type="button" class="btn-close" (click)="closeDialog()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="commentText">Votre commentaire :</label>
+            <textarea
+              id="commentText"
+              class="form-control"
+              rows="4"
+              [(ngModel)]="commentText"
+              placeholder="Partagez votre avis sur ce livre..."
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDialog()">
+            Annuler
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!commentText.trim()"
+            (click)="submitComment()"
+          >
+            Soumettre
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="isOpen"></div>

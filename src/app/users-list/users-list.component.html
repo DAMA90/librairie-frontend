@@ -1,0 +1,34 @@
+<div class="container">
+    <h2 class="text-center">Liste des Utilisateurs</h2>
+    <div class="mb-3">
+      <button class="btn btn-primary" routerLink="/create-user">
+        Ajouter un utilisateur
+      </button>
+    </div>
+    
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôles</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.nom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.roles?.join(', ') }}</td>
+          <td>
+            <button (click)="updateUser(user.id)" class="btn btn-primary me-2">
+              Modifier
+            </button>
+            <button (click)="deleteUser(user.id)" class="btn btn-danger">
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

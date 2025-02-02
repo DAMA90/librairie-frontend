@@ -1,0 +1,47 @@
+<div class="container col-md-6 offset-mid-3">
+    <h3 class="text-center">Ajouter un livre</h3>
+    <form (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="form-group">
+        <label style="margin-bottom: 10px"> Nom </label>
+        <input
+          type="text"
+          class="form-control"
+          style="margin-bottom: 10px"
+          id="titre"
+          [(ngModel)]="book.titre"
+          name="titre"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label style="margin-bottom: 10px"> Description </label>
+        <input
+          type="text"
+          class="form-control"
+          style="margin-bottom: 10px"
+          id="description"
+          [(ngModel)]="book.description"
+          name="description"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label style="margin-bottom: 10px"> Catégorie </label>
+        <select
+          class="form-control"
+          style="margin-bottom: 10px"
+          id="categorie"
+          [(ngModel)]="book.categorie"
+          name="categorie"
+        >
+          <option value="">Sélectionnez une catégorie</option>
+          <option *ngFor="let categorie of categories" [value]="categorie.id">
+            {{categorie.description}}
+          </option>
+        </select>
+      </div>
+      <br>
+  
+      <button class="btn btn-success" type="submit">Valider</button>
+    </form>
+  </div>

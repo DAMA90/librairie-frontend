@@ -1,0 +1,18 @@
+<div class="container col-md-6 offset-mid-3">
+    <form autocomplete="off" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+        <div class="mb-3">
+            <label class="form-label" style="margin-top: 100px">Email</label>
+            <input type="text" name="username" ngModel class="form-control" id="loginUsername"
+                placeholder="Entrez votre adresse email" />
+            <div id="emailHelp" class="form-text">
+                Votre nom d'utilisateur ou email
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mot de passe</label>
+            <input type="password" name="password" ngModel class="form-control" id="loginPassword"
+                placeholder="Entrez votre mot de passe" />
+        </div>
+        <input type="submit" value="Se connecter" class="btn btn-primary" />
+    </form>
+</div>

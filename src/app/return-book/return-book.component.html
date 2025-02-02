@@ -1,0 +1,80 @@
+<div class="container">
+  <h2 class="text-center mb-4">Mes emprunts en cours</h2>
+
+  <div class="row" *ngIf="!loading">
+    <div *ngFor="let emprunt of emprunts" class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ emprunt.reservationDetails?.livre?.titre }}
+          </h5>
+          <p class="card-text">
+            {{ emprunt.reservationDetails?.livre?.description }}
+          </p>
+
+          <div class="mt-3">
+            <p class="mb-2">
+              <strong>Date d'emprunt:</strong><br />
+              {{ emprunt.dateEmprunt | date : "dd/MM/yyyy" }}
+            </p>
+            <p class="mb-2">
+              <strong>Date de retour prévue:</strong><br />
+              {{ emprunt.dateRetourPrevue | date : "dd/MM/yyyy" }}
+            </p>
+
+            <div
+              [ngClass]="{
+                'alert alert-success': !isLate(emprunt.dateRetourPrevue),
+                'alert alert-danger': isLate(emprunt.dateRetourPrevue)
+              }"
+              class="mt-3"
+            >
+              <ng-container *ngIf="!isLate(emprunt.dateRetourPrevue)">
+                Il vous reste
+                {{ calculateDaysLeft(emprunt.dateRetourPrevue) }} jour(s)
+              </ng-container>
+              <ng-container *ngIf="isLate(emprunt.dateRetourPrevue)">
+                Retard de
+                {{ -calculateDaysLeft(emprunt.dateRetourPrevue) }} jour(s)
+              </ng-container>
+            </div>
+
+            <button
+              class="btn btn-primary mt-3 w-100"
+              (click)="
+                initiateReturn(
+                  emprunt.id,
+                  emprunt.reservationDetails?.id!,
+                  emprunt.reservationDetails?.livre?.titre!
+                )
+              "
+            >
+              Retourner le livre
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!loading && emprunts.length === 0"
+    class="alert alert-info text-center"
+  >
+    Vous n'avez aucun emprunt en cours.
+  </div>
+
+  <app-comment-dialog
+    *ngIf="isCommentDialogOpen"
+    [isOpen]="isCommentDialogOpen"
+    [bookTitle]="''"
+    (onClose)="closeCommentDialog()"
+    (onSubmit)="handleCommentSubmit($event)"
+  ></app-comment-dialog>
+</div>
